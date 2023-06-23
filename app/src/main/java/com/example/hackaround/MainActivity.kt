@@ -33,7 +33,10 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Call
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -48,13 +51,7 @@ class MainActivity : ComponentActivity() {
             HackAroundTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colorScheme.background) {
-//                    GreetingImage(message = stringResource(R.string.happy_birthday_test), from = stringResource(
-//                        R.string.from_test2
-//                    ) )
-//                    DisplayArticle()
-//                    TaskCompleted()
-//                    FourQuadrant()
-                BuisinessCard()
+                    BuisinessCard()
                 }
             }
         }
@@ -299,8 +296,9 @@ fun BuisinessCard(modifier: Modifier = Modifier){
     val image = painterResource(id = R.drawable.potrait)
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize().background(color = Color.Green.copy(alpha = 0.1f)
-        )
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -321,10 +319,11 @@ fun BuisinessCard(modifier: Modifier = Modifier){
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
                 modifier = Modifier.padding(top = 16.dp),
+                color = MaterialTheme.colorScheme.primary
             )
             Text(
                 text = "Professional Chole Bhature Enjoyer",
-                color = Color.DarkGray
+                color = MaterialTheme.colorScheme.secondary
             )
         }
         Column(Modifier.padding(bottom = 24.dp)) {
@@ -332,27 +331,67 @@ fun BuisinessCard(modifier: Modifier = Modifier){
                 Icon(
                     Icons.Rounded.Call,
                     contentDescription = "Phone Icon",
+                    tint = MaterialTheme.colorScheme.secondary
                 )
                 Text(
                     text = "+91 8240625004",
-                    modifier = Modifier.padding(start = 16.dp)
+                    modifier = Modifier.padding(start = 16.dp),
+                    color = MaterialTheme.colorScheme.secondary
                 )
             }
             Row(Modifier.padding(bottom = 8.dp)) {
-                Icon(Icons.Rounded.Share, contentDescription = "Share Icon")
+                Icon(Icons.Rounded.Share, contentDescription = "Share Icon", tint = MaterialTheme.colorScheme.secondary)
                 Text(
                     text = "@amkhrjee",
-                    modifier = Modifier.padding(start = 16.dp)
+                    modifier = Modifier.padding(start = 16.dp),
+                    color = MaterialTheme.colorScheme.secondary
                 )
             }
             Row(Modifier.padding(bottom = 8.dp)) {
-                Icon(Icons.Rounded.Email, contentDescription = "Email Icon")
+                Icon(Icons.Rounded.Email, contentDescription = "Email Icon", tint = MaterialTheme.colorScheme.secondary)
                 Text(
                     text = "aniruddha.mukherji@outlook.com",
-                    modifier = Modifier.padding(start = 16.dp)
+                    modifier = Modifier.padding(start = 16.dp),
+                    color = MaterialTheme.colorScheme.secondary
                 )
             }
         }
+    }
+}
+
+@Composable
+fun MyApp(
+    modifier: Modifier = Modifier,
+    names: List<String> = listOf("World", "Compose")
+) {
+    Column(modifier = modifier.padding(vertical = 4.dp)) {
+        for (name in names) {
+            Greeting(name = name)
+        }
+    }
+}
+
+@Composable
+private fun Greeting(name: String) {
+    val expanded = remember { mutableStateOf(false) }
+    val extraPadding = if (expanded.value) 48.dp else 0.dp
+    Surface(
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+    ) {
+        Row(Modifier.padding(24.dp)){
+            Column(modifier = Modifier
+                .weight(1f)
+                .padding(bottom = extraPadding)
+            ) {
+                Text(text = "Hello, ")
+                Text(text = name)
+            }
+            ElevatedButton(onClick = { expanded.value = !expanded.value }) {
+                Text(text = if (expanded.value)"Show Less" else "Show More")
+            }
+        }
+        
     }
 }
 
@@ -360,13 +399,7 @@ fun BuisinessCard(modifier: Modifier = Modifier){
 @Composable
 fun BirthDayCardPreview() {
     HackAroundTheme {
-//        GreetingImage(message = stringResource(R.string.happy_birthday_test), from = stringResource(
-//                    R.string.from_test2) )
-//        DisplayArticle()
-//            TaskCompleted()
-//            FourQuadrant()
-//    ComposeQuadrantApp()
-        BuisinessCard()
+        MyApp()
     }
 
 
